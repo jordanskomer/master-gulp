@@ -1,0 +1,42 @@
+{
+  "use_coffee": true,
+  "use_pug": true,
+  "browser": "google chrome",
+  "use_websockets": false,
+  "port": 3000,
+
+  "layout_file": "app/layout.jade",
+  "concat_file_name": "main",
+
+  "scss_linter": "/gulp-config/linters/.scss-lint.yml",
+  "js_linter": "",
+  "pug_linter": "",
+
+  "views_icon": "/gulp-config/icons/pug.png",
+  "scripts_icon": "/gulp-config/icons/coffeescript.png",
+  "styles_icon": "/gulp-config/icons/sass.png",
+  "images_icon": "/gulp-config/icons/image.png",
+  "gzip_icon": "/gulp-config/icons/gzip.png",
+  "error_icon": "/gulp-config/icons/error.png",
+
+  "views_path": [
+    "app/views/**/*.{pug,jade}",
+    "public/"
+  ],
+  "scripts_path": [
+    "app/assets/javascripts/**/*.coffee",
+    "public/javascripts/"
+  ],
+  "styles_path": [
+    "app/assets/stylesheets/**/*.scss",
+    "public/stylesheets"
+  ],
+  "images_path": [
+    "app/assets/images/**/*",
+    "public/images"
+  ],
+  "gzip_path": [
+    "public/**/*.{html,xml,json,css,js}",
+    "gzip/public/"
+  ]
+}
