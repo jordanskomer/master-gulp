@@ -6,6 +6,7 @@ const gulp          = require('gulp'),
       util          = require('gulp-util'),
       plumber       = require('gulp-plumber'),
       pug           = require('gulp-pug'),
+      haml          = require('gulp-haml'),
       coffee        = require('gulp-coffee'),
       concat        = require('gulp-concat'),
       uglify        = require('gulp-uglify'),
@@ -19,17 +20,19 @@ const gulp          = require('gulp'),
       rename        = require('gulp-rename'),
       replace       = require('gulp-replace'),
       notify        = require('gulp-notify'),
-      sassLint      = require('gulp-sass-lint'),
+      sasslint      = require('gulp-sass-lint'),
+      coffeelint    = require('gulp-coffeelint'),
+      clintstyle    = require('coffeelint-stylish'),
       browserSync   = require('browser-sync').create(),
       config        = require('./gulp-config/config.json'),
       production    = !!util.env.production,
       prod_css_file = Date.now() + ".css",
-      prod_js_file  = Date.now() + ".js";
-
-// ======
-// global vars
-// ======
-var error = false;
+      prod_js_file  = Date.now() + ".js",
+      views_path    = config.views_path["start_path"] + (config.use_pug ? "/**/*.{pug,jade}" : "/**/*.haml"),
+      scripts_path  = config.scripts_path["start_path"] + (config.use_coffee ? "/**/*.coffee" : "/**/*.js"),
+      scss_path     = config.scss_path["start_path"] + "/**/*.scss",
+      images_path   = config.images_path["start_path"] + "/**/*.{png,jpg,jpeg,JPEG,gif}",
+      gzip_path     = config.gzip_path["start_path"] + "**/*.{html,xml,json,css,js}";
 
 // ======
 // functions
@@ -72,11 +75,10 @@ var reportError = function (err) {
   } else {
     var message = '';
   }
-  notifyMessage('Error: ' + err.plugin, message + 'See console.', config.error_icon);
-  error = true
+  notifyMessage('Error: ' + err.plugin, message + 'See console.', '/gulp-config/icons/error.png');
 
   // Prevent the 'watch' task from stopping
-  this.emit('end');
+  // this.emit('end');
 }
 
 // =======
@@ -97,6 +99,36 @@ gulp.task('browser-sync', function() {
   }
 });
 
+// gulp scss-lint
+// -------
+//
+gulp.task('scss-lint', function() {
+  return gulp.src(scss_path)
+    .pipe(sasslint({
+      configFile: path.join(__dirname, config.scss_linter)
+    }))
+    .pipe(sasslint.format())
+    .pipe(sasslint.failOnError())
+    .on('error', function(e) {
+      reportError(e);
+    })
+});
+
+// gulp coffee-lint
+// -------
+//
+gulp.task('coffee-lint', function() {
+  if (config.use_coffee) {
+    return gulp.src(scripts_path)
+      .pipe(coffeelint(path.join(__dirname, config.coffee_linter)))
+      .pipe(coffeelint.reporter('coffeelint-stylish'))
+      .pipe(coffeelint.reporter('fail'))
+      .on('error', function(e) {
+        reportError(e);
+      })
+  }
+});
+
 // gulp views
 // -------
 // Runs on pug/jade files. This essentially does nothing if you aren't using pug or jade. So. Use them.
@@ -107,26 +139,26 @@ gulp.task('browser-sync', function() {
 // 5. Reload Browser
 // 6. Show notification (If no plumber error)
 gulp.task('views', function() {
-  if (config.use_pug) {
-    return gulp.src(config.views_path[0])
+  if (config.use_html_templating) {
+    return gulp.src(views_path)
       .pipe(plumber({
         errorHandler: reportError
       }))
-      .pipe(pug())
+      .pipe(config.use_pug ? pug() : util.noop())
+      .pipe(config.use_haml ? haml() : util.noop())
       .pipe(plumber.stop())
-      .pipe(gulp.dest(config.views_path[1]))
-      // .pipe(browserSync.reload)
-      .on("end", function() {
-        if (!error) {
-          notifyMessage('gulp views', 'Pug/Jade Converted', config.views_icon);
-        }
+      .pipe(gulp.dest(config.views_path["end_path"]))
+      .on('end', function() {
+        notifyMessage('gulp views',
+          config.use_pug ? 'Pug/Jade Converted' : 'Haml Converted',
+          config.use_pug ? '/gulp-config/icons/pug.png' : '/gulp-config/icons/haml.png')
       });
   }
 });
 
 // gulp scripts
 // -------
-// Runs on all CoffeeScript and JS files in the path specified in the config array
+// Runs after coffee-lint on all CoffeeScript or JS files in the path specified in the config array
 // 1. Start sourcemaps
 // 2. Start Plumber
 // 3. Converts CoffeeScript to JS (if using coffeescript)
@@ -138,53 +170,44 @@ gulp.task('views', function() {
 // 9. Saves the new file in the correct place
 // 10. Reload Browser
 // 11. Show notification (If no plumber error)
-gulp.task('scripts', function() {
-  return gulp.src(config.scripts_path[0])
+gulp.task('scripts', ['coffee-lint'], function() {
+  return gulp.src(scripts_path)
+    .pipe(sourcemaps.init())
     .pipe(plumber({
       errorHandler: reportError
     }))
-    .pipe(sourcemaps.init())
     .pipe(config.use_coffee ? coffee() : util.noop())
     .pipe(concat(config.concat_file_name + ".js"))
     .pipe(production ? uglify(): util.noop())
     .pipe(production ? rename(prod_js_file) : util.noop())
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(config.scripts_path[1]))
+    .pipe(gulp.dest(config.scripts_path["end_path"]))
     .pipe(plumber.stop())
-    // .pipe(browserSync.reload)
-    .on("end", function() {
-      if (!error) {
-        notifyMessage('gulp scripts', 'JS compiled', config.scripts_icon);
-      }
+    .on('end', function() {
+      notifyMessage('gulp scripts', 'JS compiled', '/gulp-config/icons/coffeescript.png')
     });
 });
 
 // gulp styles
 // -------
-// Runs on scss files and lints them, converts them, adds vendor prefixes, and combines them into on file
+// Runs after scss-lint on scss files converts them, adds vendor prefixes, and combines them into on file
 // 1. Start sourcemaps
 // 2. Start Plumber
-// 3. Lint SCSS - config is gound in gulp-config/linters
-// 4. Convert SCSS to Compressed CSS
-// 5. Add Vendor Prefixes
-// 6. Minify the CSS (ONLY with gulp styles --production)
-// 7. Rename to todays timestamp for cache busting (ONLY with gulp styles --production)
-// 8. Create sourcemaps
-// 9. Stop Plumber
-// 10. Write to css file
-// 11. Stream new css changes to browser
-// 12. Show notification (If no plumber error)
-gulp.task('styles', function () {
-  return gulp.src(config.styles_path[0])
+// 3. Convert SCSS to Compressed CSS
+// 4. Add Vendor Prefixes
+// 5. Minify the CSS (ONLY with gulp styles --production)
+// 6. Rename to todays timestamp for cache busting (ONLY with gulp styles --production)
+// 7. Create sourcemaps
+// 8. Stop Plumber
+// 9. Write to css file
+// 10. Stream new css changes to browser
+// 11. Show notification (If no plumber error)
+gulp.task('styles', ['scss-lint'], function () {
+  return gulp.src(scss_path)
     .pipe(sourcemaps.init())
     .pipe(plumber({
       errorHandler: reportError
     }))
-    .pipe(sassLint({
-      configFile: path.join(__dirname, config.scss_linter)
-    }))
-    .pipe(sassLint.format())
-    .pipe(sassLint.failOnError())
     .pipe(sass({outputStyle: 'compressed'}))
     .pipe(autoprefixer({
         browsers: ['last 2 versions'],
@@ -194,13 +217,10 @@ gulp.task('styles', function () {
     .pipe(production ? rename(prod_css_file) : util.noop())
     .pipe(sourcemaps.write('.'))
     .pipe(plumber.stop())
-    .pipe(gulp.dest(config.styles_path[1]))
+    .pipe(gulp.dest(config.styles_path["end_path"]))
     .pipe(browserSync.stream())
-    .on("end", function() {
-      console.log("styles error: " + error);
-      if (!error) {
-        notifyMessage('gulp styles', 'SCSS compiled', config.styles_icon);
-      }
+    .on('end', function() {
+      notifyMessage('gulp styles', 'SCSS compiled', '/gulp-config/icons/sass.png')
     });
 });
 
@@ -211,7 +231,7 @@ gulp.task('styles', function () {
 // 2. Saves images in the production images folder
 gulp.task('images', function() {
   if (production) {
-    return gulp.src(config.images_path[0])
+    return gulp.src(images_path)
       .pipe(plumber({
         errorHandler: reportError
       }))
@@ -220,11 +240,9 @@ gulp.task('images', function() {
           use: [pngquant()]
         }))
       .pipe(plumber.stop())
-      .pipe(gulp.dest(config.images_path[1]))
-      .on("end", function() {
-        if (!error) {
-          notifyMessage('gulp images', 'Images Optimized', config.images_icon);
-        }
+      .pipe(gulp.dest(config.images_path["end_path"]))
+      .on('end', function() {
+        notifyMessage('gulp images', 'Images Optimized', '/gulp-config/icons/image.png')
       });
   }
 });
@@ -234,17 +252,15 @@ gulp.task('images', function() {
 //
 gulp.task('gzip', function() {
   if (production) {
-    return gulp.src(config.gzip_path[0])
+    return gulp.src(gzip_path)
       .pipe(plumber({
         errorHandler: reportError
       }))
       .pipe(gzip())
       .pipe(plumber.stop())
-      .pipe(gulp.dest(config.gzip_path[1]))
-      .on("end", function() {
-        if (!error) {
-          notifyMessage('gulp gzip', 'GZIP Completed', config.gzip_icon);
-        }
+      .pipe(gulp.dest(config.gzip_path["end_path"]))
+      .on('end', function() {
+        notifyMessage('gulp gzip', 'GZIP Completed', '/gulp-config/icons/gzip.png')
       });
   }
 });
@@ -271,10 +287,10 @@ gulp.task('set-prod-files', function() {
 // -------
 //
 gulp.task('watch', function() {
-  gulp.watch(config.views_path[0], ['views']);
-  gulp.watch(config.scripts_path[0], ['scripts']);
-  gulp.watch(config.styles_path[0], ['styles']);
-  gulp.watch(config.images_path[0], ['images']);
+  gulp.watch(views_path, ['views'], browserSync.reload);
+  gulp.watch(scripts_path, ['scripts'], browserSync.reload);
+  gulp.watch(scss_path, ['styles']);
+  gulp.watch(images_path, ['images']);
 });
 
 gulp.task('default', ['browser-sync', 'views', 'scripts', 'styles', 'images', 'gzip', 'watch']);

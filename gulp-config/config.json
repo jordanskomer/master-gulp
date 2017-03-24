@@ -1,42 +1,39 @@
 {
-  "use_coffee": true,
-  "use_pug": true,
   "browser": "google chrome",
-  "use_websockets": false,
   "port": 3000,
+  "use_websockets": false,
+
+  "use_html_templating": true,
+  "use_pug": false,
+  "use_haml": true,
+
+  "use_coffee": true,
 
   "layout_file": "app/layout.jade",
   "concat_file_name": "main",
 
   "scss_linter": "/gulp-config/linters/.scss-lint.yml",
   "js_linter": "",
-  "pug_linter": "",
+  "coffee_linter": "/gulp-config/linters/.coffee-lint.json",
 
-  "views_icon": "/gulp-config/icons/pug.png",
-  "scripts_icon": "/gulp-config/icons/coffeescript.png",
-  "styles_icon": "/gulp-config/icons/sass.png",
-  "images_icon": "/gulp-config/icons/image.png",
-  "gzip_icon": "/gulp-config/icons/gzip.png",
-  "error_icon": "/gulp-config/icons/error.png",
-
-  "views_path": [
-    "app/views/**/*.{pug,jade}",
-    "public/"
-  ],
-  "scripts_path": [
-    "app/assets/javascripts/**/*.coffee",
-    "public/javascripts/"
-  ],
-  "styles_path": [
-    "app/assets/stylesheets/**/*.scss",
-    "public/stylesheets"
-  ],
-  "images_path": [
-    "app/assets/images/**/*",
-    "public/images"
-  ],
-  "gzip_path": [
-    "public/**/*.{html,xml,json,css,js}",
-    "gzip/public/"
-  ]
+  "views_path": {
+    "start_path": "app/views/",
+    "end_path": "public/"
+  },
+  "scripts_path": {
+    "start_path": "app/assets/javascripts/",
+    "end_path": "public/javascripts/"
+  },
+  "scss_path": {
+    "start_path": "app/assets/stylesheets/",
+    "end_path": "public/stylesheets"
+  },
+  "images_path": {
+    "start_path": "app/assets/images/",
+    "end_path": "public/images"
+  },
+  "gzip_path": {
+    "start_path": "public/",
+    "end_path": "gzip/public/"
+  }
 }
