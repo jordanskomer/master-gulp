@@ -1,0 +1,144 @@
+:root {
+  --width: 800px;
+  --imageHeight: 800px;
+}
+
+body {
+  padding: 0;
+  height: 2000px;
+  max-width: var(--width);
+  margin: 100px auto;
+  color: white;
+  background-color: #cccccc;
+  font-family: 'Lato', sans-serif;
+  position: relative;
+}
+
+.banner {
+  position: absolute;
+  top: -100px;
+  width: 100vw;
+  margin-left: -50vw;
+  left: 50%;
+  z-index: 1;
+}
+
+.holder {
+  position: relative;
+  top: 40px;
+  left: 50px;
+  width: 500px;
+  height: 200px;
+}
+
+.title {
+  color: #3E4450;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.author {
+  color: #3E4450;
+  font-size: 0.75rem;
+}
+
+.o-panels {
+  position: relative;
+  width: 100%;
+}
+
+.m-panel {
+
+}
+
+.m-images {
+  filter: invert(.2);
+}
+
+.m-images__image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-size: cover;
+  width: 100%;
+  height: var(--imageHeight);
+  opacity: 0;
+  transition: opacity 0.04s;
+}
+
+.m-images__image.-active {
+  opacity: 1;
+}
+
+#j-scene1__image1 {
+  background-image: url('images/image150.jpg');
+}
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
+}
+
+.a-canvas {
+  position: absolute;
+  z-index: 1;
+}
+
+.a-graphText {
+  position: absolute;
+  opacity: 0;
+  font-size: 0.75rem;
+}
+
+.a-graphText.text1 {
+  top: 217px;
+  left: 78px;
+}
+
+.a-graphText.text2 {
+  top: 218px;
+  left: 170px;
+}
+
+.a-graphText.text3 {
+  top: 180px;
+  left: 215px;
+}
+.a-graphText.text4 {
+  top: 180px;
+  left: 280px;
+}
+
+.bulletCircle1, .bulletCircle2, .bulletCircle3, .bulletText1, .bulletText2, .bulletText3 {
+  opacity: 0;
+}
+
+.bulletTexts1, .bulletTexts2, .bulletTexts3 {
+  position: absolute;
+  font-size: 0.85rem;
+  line-height: 25px;
+}
+
+.bulletTexts1 {
+  top: 89px;
+  right: 195px;
+}
+
+.bulletTexts2 {
+  text-align: right;
+  top: 642px;
+  left: 25px;
+  font-size: 0.8rem;
+  line-height: 20px;
+}
+
+.bulletTexts3 {
+  top: 667px;
+  right: 5px;
+  font-size: 0.75rem;
+  line-height: 26px;
+}
+

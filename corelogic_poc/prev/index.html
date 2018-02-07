@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <link rel="stylesheet" href="./app.css">
+  <link rel="stylesheet" href="./odometer.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TimelineMax.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/animation.gsap.js"></script>
+  <script src="./odometer.min.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <section class="content">
+
+  </section>
+  <section class="container">
+    <div class="headers">
+      <h1 class="header -active">#1 Accelerate Underwriting</h1>
+      <h1 class="header">#2 Gain Customer Insight</h1>
+      <h1 class="header">#3 Manage Portfolio Risk and Compliance</h1>
+    </div>
+    <div id="animation">
+      <div class="panels">
+        <div class="panel">
+          <div class="trigger"></div>
+          <div class="scene">
+            <img class="view" src="./view_1.jpg" alt="">
+            <svg class="canvas" width="960" height="640" viewBox="0 0 960 640" xmlns="http://www.w3.org/2000/svg">
+              
+              <line class="line line1" inverse="true" x1="65" y1="202" x2="252" y2="68" stroke-width="1.5" stroke="white" />
+              <svg class="plus plus1" x="259" y="60">
+                <line x1="4.25" x2="4.25" y2="8.5" stroke-width="1.5" stroke="white"/>
+                <line y1="4.25" x2="8.5" y2="4.25" stroke-width="1.5" stroke="white"/>
+              </svg>
+              <line class="line graphLine" x1="407" y1="75" x2="450" y2="70" stroke-width="1.5" stroke="white" />
+              <polyline id="graph" fill="none" opacity="0.75" stroke="none" stroke-width="0" points="274,66 300,75.5 325,84.62 400,112 425,121.1, 500,148.49 575,175.87 600,185" />
+              <line class="line line1" x1="274" y1="66" x2="600" y2="185" stroke-width="1.5" stroke="white" />
+              <line class="line line1" x1="263.5" y1="74" x2="263.5" y2="480" stroke-width="1.5" stroke="white" />
+
+              <g class="bullet">
+                <circle class="bulletCircle" cx="205" cy="225" r="3.5" fill="white" />
+                <line class="line bulletLine" inverse="true" x1="205" y1="225" x2="263.5" y2="225" stroke-width="1.5" stroke="white" />
+              </g>
+              <g class="bullet">
+                <circle class="bulletCircle" cx="205" cy="265" r="3.5" fill="white" />
+                <line class="line bulletLine" inverse="true" x1="205" y1="265" x2="263.5" y2="225" stroke-width="1.5" stroke="white" />
+              </g>
+              <g class="bullet">
+                <circle class="bulletCircle" cx="205" cy="285" r="3.5" fill="white" />
+                <line class="line bulletLine" inverse="true" x1="205" y1="285" x2="263.5" y2="225" stroke-width="1.5" stroke="white" />
+              </g>
+              <g class="bullet">
+                <circle class="bulletCircle" cx="205" cy="305" r="3.5" fill="white" />
+                <line class="line bulletLine" inverse="true" x1="205" y1="305" x2="263.5" y2="225" stroke-width="1.5" stroke="white" />
+              </g>
+              <g class="bullet">
+                <circle class="bulletCircle" cx="205" cy="325" r="3.5" fill="white" />
+                <line class="line bulletLine" inverse="true" x1="205" y1="325" x2="263.5" y2="225" stroke-width="1.5" stroke="white" />
+              </g>
+
+              <line class="line line2" inverse="true" x1="40" y1="583" x2="583" y2="438" stroke-width="1.5" stroke="white" />
+                <svg class="plus plus2" x="591" y="430">
+                  <line x1="4.25" x2="4.25" y2="8.5" stroke-width="1.5" stroke="white" />
+                  <line y1="4.25" x2="8.5" y2="4.25" stroke-width="1.5" stroke="white" />
+                </svg>
+              <line class="line line2" x1="608" y1="437" x2="960" y2="497" stroke-width="1.5" stroke="white" />
+
+              
+              <line class="line line3" x1="666" y1="273" x2="667" y2="418" stroke-width="1.5" stroke="white" />
+              <svg class="plus plus3" x="661.5" y="260">
+                <line x1="4.25" x2="4.25" y2="8.5" stroke-width="1.5" stroke="white" />
+                <line y1="4.25" x2="8.5" y2="4.25" stroke-width="1.5" stroke="white" />
+              </svg>
+              <line class="line line3" x1="675.5" y1="265" x2="829" y2="280" stroke-width="1.5" stroke="white" />
+              <svg class="plus plus3" x="833" y="276">
+                <line x1="4.25" x2="4.25" y2="8.5" stroke-width="1.5" stroke="white" />
+                <line y1="4.25" x2="8.5" y2="4.25" stroke-width="1.5" stroke="white" />
+              </svg>
+              <line class="line line3" x1="837.5" y1="287" x2="841" y2="394" stroke-width="1.5" stroke="white" />
+
+
+            </svg>
+            
+
+            <div class="side">
+              <div class="title bulletText bulletText1">
+                PROPERTY DATA
+              </div>
+              <div class="info">
+                <div class="bulletText bulletText2">4 BEDROOMS</div>
+                <div class="bulletText bulletText3">3 BATHS</div>
+                <div class="bulletText bulletText4">BUILT 2010</div>
+                <div class="bulletText bulletText5">3,400 SQ FT</div>
+              </div>
+            </div>
+
+            <div class="infographic">
+              <span>SALE PRICE $</span>
+              <div class="odometer" info="346347"></div>
+            </div>
+          </div>
+        </div>
+        <div id="trigger1"></div>
+        <!-- <div class="panel">
+          <div class="trigger"></div>
+          <div class="scene view2">
+            <svg class="canvas" width="960" height="640" viewBox="0 0 960 640" xmlns="http://www.w3.org/2000/svg">
+              <line class="line" x1="275" y1="65" x2="600" y2="185" stroke-width="1.5" stroke="white" />
+              <line class="line" x1="0" y1="600" x2="500" y2="450" stroke-width="1.5" stroke="white" />
+            </svg>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="trigger"></div>
+          <div class="scene view3">
+            <svg class="canvas" width="960" height="640" viewBox="0 0 960 640" xmlns="http://www.w3.org/2000/svg">
+              <line class="line" inverse="true" x1="65" y1="202" x2="250" y2="65" stroke-width="1.5" stroke="white" />
+            </svg>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </section>
+  <section class="content">
+
+  </section>
+  <script src="./app.js"></script>
+</body>
+</html>
