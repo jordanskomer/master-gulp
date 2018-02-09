@@ -5,53 +5,67 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>BeanStalk POC</title>
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-  <link rel="preload" as="video" href="https://www.apple.com/media/us/mac-pro/2013/16C1b6b5-1d91-4fef-891e-ff2fc1c1bb58/videos/macpro_main_desktop.mp4">
-  <link rel="preload" as="video" href="./work.mp4">
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TimelineMax.min.js"></script>
+  <title>Corelogic</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenLite.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TimelineLite.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/animation.gsap.js"></script>
 <link href="/public/stylesheets/application.css" rel="stylesheet"></head>
 
 <body>
-  <div class="otherstuff"></div>
+  <img class="otherstuff" src="./homepage.jpg"></img>
   <div class="o-animation">
-    <div id="j-animationTrigger" class="o-animation__trigger"></div>
-    <video class="o-animation__video" id="j-video"></video>
-    <!-- <div class="o-animation__images">
-      <div class="a-image -active" id="j-image1"></div>
-      <div class="a-image" id="j-image2"></div>
-      <div class="a-image" id="j-image3"></div>
-    </div> -->
+    <div class="o-animation__scroller" id="j-scrollAnimation">
+      <div class="a-mouse">
+        <div class="a-mouse__scroll"></div>
+      </div>
+    </div>
+    <div class="o-animation__trigger" id="j-animationTrigger"></div>
     <div class="o-animation__scenes">
-      <div class="m-scene">
-        <div class="m-scene__text">scene 1</div>
-        <svg id="scene1" class="m-scene__svg j-canvas" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMin slice"
-          width="100%" style="height: 1px; overflow: visible">
-          <line x1="327" y1="233" x2="540" y2="330" stroke-width="1.5" stroke="black" />
-        </svg>
+      <div class="o-animation__scene m-scene" id="j-scene0" style="z-index: 6;">
+        <div class="m-scene__image a-image" id="j-scene0Image"></div>
+        <video class="m-scene__video" id="j-scene0Video" preload>
+          <source src="/videos/scene0.mp4" type="video/mp4">
+          <source src="/videos/scene0.webm" type="video/webm">
+        </video>
       </div>
-      <div class="m-scene">
-        <div class="m-scene__text">scene 2</div>
-        <svg id="scene1" class="m-scene__svg j-canvas" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMin slice" width="100%"
-          style="height: 1px; overflow: visible">
-          <line x1="327" y1="233" x2="540" y2="330" stroke-width="1.5" stroke="black" />
-        </svg>
+      <div class="o-animation__scene m-scene" id="j-scene1" style="z-index: 5;">
+        <div class="m-scene__image a-image" id="j-scene1Image"></div>
+        <video class="m-scene__video" id="j-scene1Video" preload>
+          <source src="/videos/scene0to1.mp4" type="video/mp4">
+          <source src="/videos/scene0to1.webm" type="video/webm">
+        </video>
       </div>
-      <div class="m-scene">
-        <div class="m-scene__text">scene 3</div>
-        <svg id="scene1" class="m-scene__svg j-canvas" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMin slice" width="100%"
-          style="height: 1px; overflow: visible">
-          <line x1="327" y1="233" x2="540" y2="330" stroke-width="1.5" stroke="black" />
-        </svg>
+      <div class="o-animation__scene m-scene" id="j-scene2" style="z-index: 4;">
+        <div class="m-scene__image a-image" id="j-scene2Image"></div>
+        <video class="m-scene__video" id="j-scene2Video" preload>
+          <source src="/videos/scene1to2.mp4" type="video/mp4">
+          <source src="/videos/scene1to2.webm" type="video/webm">
+        </video>
+      </div>
+      <div class="o-animation__scene m-scene" id="j-scene3" style="z-index: 3;">
+        <div class="m-scene__image a-image" id="j-scene3Image"></div>
+        <video class="m-scene__video" id="j-scene3Video" preload>
+          <source src="/videos/scene2to3.mp4" type="video/mp4">
+          <source src="/videos/scene2to3.webm" type="video/webm">
+        </video>
+      </div>
+      <div class="o-animation__scene m-scene" id="j-scene4" style="z-index: 2;">
+        <div class="m-scene__image a-image" id="j-scene4Image"></div>
+        <video class="m-scene__video" id="j-scene4Video" preload>
+          <source src="/videos/scene3to4.mp4" type="video/mp4">
+          <source src="/videos/scene3to4.webm" type="video/webm">
+        </video>
+      </div>
+      <div class="o-animation__scene m-scene" id="j-scene5" style="z-index: 1;">
+        <div class="m-scene__image a-image" id="j-scene5Image"></div>
+        <video class="m-scene__video" id="j-scene5Video" preload>
+          <source src="/videos/scene4to5.mp4" type="video/mp4">
+            <source src="/videos/scene4to5.webm" type="video/webm">
+        </video>
       </div>
     </div>
   </div>
-  <div class="otherstuff"></div>
+  <img class="otherstuff" src="./bottompage.jpg"></img>
 
 
   <!-- <div class="banner">
@@ -218,6 +232,6 @@
       </div>
     </div>
   </div> -->
-<script type="text/javascript" src="/public/javascripts/manifest.js"></script><script type="text/javascript" src="/public/javascripts/vendor.js"></script><script type="text/javascript" src="/public/javascripts/application.js"></script></body>
+<script type="text/javascript" src="/public/javascripts/application.js"></script></body>
 
 </html>

@@ -3,11 +3,13 @@ const path              = require('path')
 const glob              = require('glob')
 const webpack           = require('webpack')
 const config            = require('./environments/' + process.env.NODE_ENV)
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 
 const postcssPlugins = [
   require('postcss-cssnext')(),
   require('postcss-nested')(),
+  require('postcss-assets')(),
   ...config.postcssPlugins
 ]
 
@@ -20,26 +22,23 @@ const plugins = [
   new ExtractTextPlugin('stylesheets/' + config.filenames.css),
 
   /**
-   * Extract anything used that is in the node_modules folder and is used
-   * more then once into its own bundle.
-   * @author jordanskomer
-   */
-  new webpack.optimize.CommonsChunkPlugin({
-    name: 'vendor',
-    minChunks(module, count) {
-      let context = module.context;
-      return context && context.indexOf('node_modules') >= 0;
-    },
-  }),
-
-  /**
-   * Extract webpack boiler plate into its own js file
+   * Loads in the js and css files from webpack into the index.html page
    *
    * @author jordanskomer
    */
-  new webpack.optimize.CommonsChunkPlugin({
-    name: 'manifest',
-    minChunks: Infinity
+  new HtmlWebpackPlugin({
+    template: './index.html',
+    inject: 'head',
+    title: 'Core Logic Demo',
+    minify: process.env.NODE_ENV !== 'production' ? false : {
+      removeAttributeQuotes: true,
+      collapseWhitespace: true,
+      html5: true,
+      minifyCSS: true,
+      removeComments: true,
+      removeEmptyAttributes: true,
+    },
+    hash: true,
   }),
 
   /**
@@ -89,7 +88,7 @@ module.exports = {
         use: [{
           loader: 'url-loader',
           options: {
-            limit: 50000,
+            limit: 1,
             name: config.assetsFilename,
             publicPath: '../',
           }
@@ -101,9 +100,6 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
-          options: {
-            presets: ['env']
-          }
         }
       },
     ]

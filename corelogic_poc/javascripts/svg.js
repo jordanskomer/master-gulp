@@ -1,3 +1,7 @@
+function getLength(x, y, x0, y0) {
+  return Math.sqrt((x -= x0) * x + (y -= y0) * y)
+}
+
 /**
  * Set the strokeDashoffset and array to be the length of the line
  *

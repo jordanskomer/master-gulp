@@ -2,9 +2,8 @@ let ratio = (22 / 39)
 let width, height = 0
 
 async function resizeCanvases() {
-  let canvases = document.getElementsByClassName('j-canvas')
+  let canvases = document.getElementsByClassName('m-scene__svg')
   for (const canvas of canvases) {
-    canvas.setAttribute('viewBox', '0 0 ' + width + ' ' + height)
     canvas.style.paddingBottom = ((height / width) * 100) + '%'
   }
 }
@@ -25,9 +24,11 @@ async function resizeScenes() {
 }
 
 async function resizeVideo() {
-  let video = document.getElementById('j-video')
-  video.style.width = width + 'px'
-  video.style.height = height + 'px'
+  let videos = document.getElementsByClassName('m-scene__video')
+  for(const video of videos) {
+    video.style.width = width + 'px'
+    video.style.height = height + 'px'
+  }
 }
 
 let getScreenDimensions = () => {
@@ -40,13 +41,12 @@ let resizer7000 = () => {
   document.getElementsByClassName('o-animation')[0].style.height = height + 'px'
   resizeScenes()
   resizeVideo()
-  // resizeImages()
+  // resizeCanvases()
 }
 
 export default {
   init: () => {
     resizer7000()
-    resizeCanvases()
     if (window.attachEvent) {
       window.attachEvent('onresize', resizer7000);
     }
@@ -57,7 +57,6 @@ export default {
   all: () => {
     getScreenDimensions()
     resizeScenes()
-    // resizeImages()
-    resizeCanvases()
+    // resizeCanvases()
   },
 }

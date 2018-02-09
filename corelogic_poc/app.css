@@ -7,7 +7,7 @@ body {
 }
 
 .otherstuff {
-  height: 150vh;
+  width: 100%;
 }
 
 .o-animation {
@@ -15,12 +15,21 @@ body {
   width: 100%;
   /* height set in resize.js */
 
-  &__images, &__trigger, &__scenes {
-    width: 100%;
+  &__scroller {
+    position: absolute;
+    left: 50%;
+    bottom: 25px;
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+
+    &.-active {
+      opacity: 1;
+    }
   }
 
-  &__images {
-    position: relative;
+  &__trigger, &__scenes {
+    width: 100%;
   }
 
   &__trigger {
@@ -30,6 +39,10 @@ body {
   }
 
   &__scenes {
+    position: relative;
+  }
+
+  &__scene {
     position: absolute;
     top: 0;
     left: 0;
@@ -37,34 +50,38 @@ body {
 }
 
 .a-image {
-  position: absolute;
-  top: 0;
-  left: 0;
+  width: 100%;
+  height: 100%;
   background-size: cover;
   background-position: center;
-  opacity: 0;
-  transition: opacity 0.04s;
 
   @media (--phone) {
-    position: relative;
-    opacity: 1;
-  }
-
-  &.-active {
     opacity: 1;
   }
 }
 
-#j-image1 {
-  background-image: url('./images/frames/frame150.jpg');
+#j-scene0Image {
+  background-image: url('./images/scene0.jpg');
 }
 
-#j-image2 {
-  background-image: url('./images/frames/frame100.jpg');
+#j-scene1Image {
+  background-image: url('./images/scene1.jpg');
 }
 
-#j-image3 {
-  background-image: url('./images/frames/frame50.jpg');
+#j-scene2Image {
+  background-image: url('./images/scene2.jpg');
+}
+
+#j-scene3Image {
+  background-image: url('./images/scene3.jpg');
+}
+
+#j-scene4Image {
+  background-image: url('./images/scene4.jpg');
+}
+
+#j-scene5Image {
+  background-image: url('./images/scene5.jpg');
 }
 
 .m-scene {
@@ -73,39 +90,56 @@ body {
   left: 0;
   width: 100%;
   /* height set in resize.js */
+  opacity: 1;
 
   @media (--phone) {
     position: relative;
-    opacity: 1;
   }
 
-  &__text {
-    height: 100%;
+  &.-hidden {
+    opacity: 0;
   }
 
-  &__svg {
+  & > * {
     position: absolute;
     top: 0;
     left: 0;
+  }
+
+  &__image {
+    @media (--phone) {
+      position: relative;
+    }
+  }
+
+  &__video {
+
   }
 }
 
+.a-mouse {
+  width: 3px;
+  padding: 5px 10px;
+  height: 30px;
+  border: 2px solid #fff;
+  border-radius: 25px;
+  opacity: 0.75;
+  box-sizing: content-box;
 
-.m-animation {
-
-  &__svg {
-    position: relative;
-    height:0;
-    width: 100%;
-    padding: 0;
+  &__scroll {
+    width: 3px;
+    height: 10px;
+    border-radius: 25%;
+    background-color: #fff;
+    animation-name: scroll;
+    animation-duration: 1.5s;
+    animation-timing-function: cubic-bezier(.15,.41,.69,.94);
+    animation-iteration-count: infinite;
   }
+}
 
-  .j-canvas {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    left: 0;
-    top: 0;
-    z-index: 1;
-  }
+@keyframes scroll {
+  0% { opacity: 0; }
+  10% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(15px); opacity: 0;}
 }
